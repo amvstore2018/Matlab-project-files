@@ -71,8 +71,8 @@ dt=0.01;
 global time_array PWM1  PWM2 PWM3 PWM4
 time_array=0:dt:tend;
 
-C_phie=10;
-C_theta=0;
+C_phie=0;
+C_theta=10;
 C_psi = 0;
 esc1 =                    - C_theta +C_psi;
 esc2 =     + C_phie                  -C_psi;
