@@ -94,11 +94,11 @@ PWM2= esc2*ones(1,length(time_array));
 PWM3= esc3*ones(1,length(time_array));
 PWM4= esc4*ones(1,length(time_array));
 global Lphi Lp Mphi Mp Nphi Np Ltheta Lq Mtheta Mq Ntheta Nq Lpsi Lr Mpsi Mr Npsi Nr ;
-Lphi =   -2; Mphi =  0; Nphi =   0;%-3.4,-0.06
+Lphi =   -3.4; Mphi =  0; Nphi =   0;%-3.4,-0.06
 Lp =     -0.06; Mp =     -0.01; Np =     0;
 Ltheta = 0; Mtheta = -3.4; Ntheta = 0;
 Lq =     0; Mq =     -0.06; Nq =     0;
-Lpsi =   0; Mpsi =   0; Npsi =   -3.6;
+Lpsi =   0; Mpsi =   0; Npsi =   -3.4;
 Lr =     0; Mr =     0; Nr =     -0.06;
 % PWM1 = -[10   10  0    9 10 10 10];
 % PWM2 = -[10    0  10  10 10 9 10];
