@@ -63,16 +63,16 @@ l = distance *  ones(4,1);
 % k = [37.6 33.8 40.25 38.225]';%1650 taken @+-20
 % k = [46.35 31.625 37.875 37.175]';%1700 taken @+-20
 % b = [0.001 0.001 0.001 0.001]';% don't know yet
-k = 0.01 *  ones(4,1);
-b = 0.0001 *  ones(4,1);
+k = 0.0115 *  ones(4,1);
+b = 0.001 *  ones(4,1);
 tend = 30;
 dt=0.01;
 %% Non Linear Simulation
 global time_array PWM1  PWM2 PWM3 PWM4
 time_array=0:dt:tend;
 
-C_phie=0;
-C_theta=10;
+C_phie=10;
+C_theta=0;
 C_psi = 0;
 esc1 =                    - C_theta +C_psi;
 esc2 =     + C_phie                  -C_psi;
@@ -94,10 +94,14 @@ PWM2= esc2*ones(1,length(time_array));
 PWM3= esc3*ones(1,length(time_array));
 PWM4= esc4*ones(1,length(time_array));
 global Lphi Lp Mphi Mp Nphi Np Ltheta Lq Mtheta Mq Ntheta Nq Lpsi Lr Mpsi Mr Npsi Nr ;
-Lphi =   -3.4; Mphi =  0; Nphi =   0;%-3.4,-0.06
-Lp =     -0.06; Mp =     -0.01; Np =     0;
-Ltheta = 0; Mtheta = -3.4; Ntheta = 0;
-Lq =     0; Mq =     -0.06; Nq =     0;
+for i1=4
+
+    for i2 = 0.06
+
+Lphi =   -i1; Mphi =  0; Nphi =   0;%-3.4,-0.06
+Lp =     -i2; Mp = -0.01; Np =     0;
+Ltheta = -0.01; Mtheta = -i1; Ntheta = 0;
+Lq =     0; Mq =     -i2; Nq =     0;
 Lpsi =   0; Mpsi =   0; Npsi =   -3.4;
 Lr =     0; Mr =     0; Nr =     -0.06;
 % PWM1 = -[10   10  0    9 10 10 10];
@@ -109,6 +113,18 @@ Lr =     0; Mr =     0; Nr =     -0.06;
 
     %     =====Simulation======%
     [time,Y] =  RK4(@quad_eqomv1,dt,[0 tend],initCondions);
+                    i1
+    i2
+    rad2deg(max(Y(:,7)))
+    if(max(Y(:,7))>=deg2rad(4) && max(Y(:,7))<=deg2rad(4.5)  && isempty( find(isnan(Y) == 1, 1)))
+        break;
+    end
+    end
+    if(max(Y(:,7))>=deg2rad(4) && max(Y(:,7))<=deg2rad(4.5) && isempty( find(isnan(Y) == 1, 1)))
+        break;
+    end
+
+end
 %     for index = 1:12
 %         h2 = figure(index);
 %         set(h2,'units','normalized','outerposition',[0 0 1 1]);
