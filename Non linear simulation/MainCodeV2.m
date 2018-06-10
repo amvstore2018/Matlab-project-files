@@ -63,16 +63,16 @@ l = distance *  ones(4,1);
 % k = [37.6 33.8 40.25 38.225]';%1650 taken @+-20
 % k = [46.35 31.625 37.875 37.175]';%1700 taken @+-20
 % b = [0.001 0.001 0.001 0.001]';% don't know yet
-k = 0.016 *  ones(4,1);
-b = 0.001 *  ones(4,1);
+k = 0.015 *  ones(4,1);
+b = 0.00001 *  ones(4,1);
 tend = 30;
 dt=0.01;
 %% Non Linear Simulation
 global time_array PWM1  PWM2 PWM3 PWM4
 time_array=0:dt:tend;
 
-C_phie=0;
-C_theta=30;
+C_phie=10;
+C_theta=0;
 C_psi = 0;
 esc1 =                    - C_theta +C_psi;
 esc2 =     + C_phie                  -C_psi;
@@ -94,22 +94,20 @@ PWM2= esc2*ones(1,length(time_array));
 PWM3= esc3*ones(1,length(time_array));
 PWM4= esc4*ones(1,length(time_array));
 global Lphi Lp Mphi Mp Nphi Np Ltheta Lq Mtheta Mq Ntheta Nq Lpsi Lr Mpsi Mr Npsi Nr ;
-global CR_CG_distance;
-CR_CG_distance = 0.1;
+%% jig paramters
+global CR_CG_distance nue;
+CR_CG_distance = 0.08;
+nue = 0.01;
 for i1=0
 
     for i2 = 0
 
-Lphi =   -i1; Mphi =  0; Nphi =   0;%-3.4,-0.06
-Lp =     -i2; Mp = -0.08; Np =     0;
+Lphi =   -i1; Mphi =  0; Nphi =   0;
+Lp =     -i2; Mp = -0; Np =     0;
 Ltheta = 0; Mtheta = -i1; Ntheta = 0;
-Lq =     -0.08; Mq =     -i2; Nq =     0;
+Lq =     -0; Mq =     -i2; Nq =     0;
 Lpsi =   0; Mpsi =   0; Npsi =   -i1;
 Lr =     0; Mr =     0; Nr =     -i2;
-% PWM1 = -[10   10  0    9 10 10 10];
-% PWM2 = -[10    0  10  10 10 9 10];
-% PWM3 = -[10   10  0   10 9 10 10];
-% PWM4 = -[10    0  10  10 10 10 9];
 
     mkdir (fullfile(['Figures\',Vehicle,'\NonLinearResponse']),['PWMs_',num2str(esc1),'_',num2str(esc2),'_',num2str(esc3),'_',num2str(esc4)] )
 
@@ -147,40 +145,40 @@ end
 % 
 %         saveas(h1(index+12*(i-1)),  fullfile(['Figures\',Vehicle,'\NonLinearResponse\',['PWMs_',num2str(esc1),'_',num2str(esc2),'_',num2str(esc3),'_',num2str(esc4),'\'] , [num2str(index),'.emf']]));
 %     end
-        figure
-        set(gcf,'units','normalized','outerposition',[0 0 1 1]);
-        subplot(2,3,1);grid on;
-        plot(time,Y(:,1),'lineWidth',lineWidth);grid on;box on;
-        xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
-        ylabel(ylabels{1},'FontSize',labelFontSize,'FontWeight','bold');
-        title('u versus time','FontSize',titleFontSize,'FontWeight','bold');
-        subplot(2,3,2);grid on;
-        plot(time,Y(:,2),'lineWidth',lineWidth);grid on;box on;
-        xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
-        ylabel(ylabels{2},'FontSize',labelFontSize,'FontWeight','bold');
-        title('v versus time','FontSize',titleFontSize,'FontWeight','bold');
-        subplot(2,3,3);grid on;
-        plot(time,Y(:,3),'lineWidth',lineWidth);grid on;box on;
-        xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
-        ylabel(ylabels{3},'FontSize',labelFontSize,'FontWeight','bold');
-        title('w versus time','FontSize',titleFontSize,'FontWeight','bold');
-     
-        subplot(2,3,4);grid on;
-        plot(time,Y(:,10),'lineWidth',lineWidth);grid on;box on;
-        xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
-        ylabel(ylabels{10},'FontSize',labelFontSize,'FontWeight','bold');
-        title('x versus time','FontSize',titleFontSize,'FontWeight','bold');
-        subplot(2,3,5);grid on;
-        plot(time,Y(:,11),'lineWidth',lineWidth);grid on;box on;
-        xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
-        ylabel(ylabels{11},'FontSize',labelFontSize,'FontWeight','bold');
-        title('y versus time','FontSize',titleFontSize,'FontWeight','bold');
-        subplot(2,3,6);
-        plot(time,Y(:,12),'lineWidth',lineWidth);grid on;box on;
-        xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
-        ylabel(ylabels{12},'FontSize',labelFontSize,'FontWeight','bold');
-        title('z versus time','FontSize',titleFontSize,'FontWeight','bold');
-        saveas(gcf,  fullfile(['Figures\',Vehicle,'\NonLinearResponse\',['PWMs_',num2str(esc1),'_',num2str(esc2),'_',num2str(esc3),'_',num2str(esc4),'\'] , ['13','.emf']]));
+%         figure
+%         set(gcf,'units','normalized','outerposition',[0 0 1 1]);
+%         subplot(2,3,1);grid on;
+%         plot(time,Y(:,1),'lineWidth',lineWidth);grid on;box on;
+%         xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
+%         ylabel(ylabels{1},'FontSize',labelFontSize,'FontWeight','bold');
+%         title('u versus time','FontSize',titleFontSize,'FontWeight','bold');
+%         subplot(2,3,2);grid on;
+%         plot(time,Y(:,2),'lineWidth',lineWidth);grid on;box on;
+%         xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
+%         ylabel(ylabels{2},'FontSize',labelFontSize,'FontWeight','bold');
+%         title('v versus time','FontSize',titleFontSize,'FontWeight','bold');
+%         subplot(2,3,3);grid on;
+%         plot(time,Y(:,3),'lineWidth',lineWidth);grid on;box on;
+%         xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
+%         ylabel(ylabels{3},'FontSize',labelFontSize,'FontWeight','bold');
+%         title('w versus time','FontSize',titleFontSize,'FontWeight','bold');
+%      
+%         subplot(2,3,4);grid on;
+%         plot(time,Y(:,10),'lineWidth',lineWidth);grid on;box on;
+%         xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
+%         ylabel(ylabels{10},'FontSize',labelFontSize,'FontWeight','bold');
+%         title('x versus time','FontSize',titleFontSize,'FontWeight','bold');
+%         subplot(2,3,5);grid on;
+%         plot(time,Y(:,11),'lineWidth',lineWidth);grid on;box on;
+%         xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
+%         ylabel(ylabels{11},'FontSize',labelFontSize,'FontWeight','bold');
+%         title('y versus time','FontSize',titleFontSize,'FontWeight','bold');
+%         subplot(2,3,6);
+%         plot(time,Y(:,12),'lineWidth',lineWidth);grid on;box on;
+%         xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
+%         ylabel(ylabels{12},'FontSize',labelFontSize,'FontWeight','bold');
+%         title('z versus time','FontSize',titleFontSize,'FontWeight','bold');
+%         saveas(gcf,  fullfile(['Figures\',Vehicle,'\NonLinearResponse\',['PWMs_',num2str(esc1),'_',num2str(esc2),'_',num2str(esc3),'_',num2str(esc4),'\'] , ['13','.emf']]));
 
         figure
                 set(gcf,'units','normalized','outerposition',[0 0 1 1]);
@@ -190,21 +188,21 @@ end
         xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
         ylabel(ylabels{7},'FontSize',labelFontSize,'FontWeight','bold');
         title('phi versus time','FontSize',titleFontSize,'FontWeight','bold');
-         xlim([0,4]);
+%          xlim([0,4]);
 
         subplot(2,3,2);grid on;
       plot(time,rad2deg(Y(:,8)),'lineWidth',lineWidth);grid on;box on;
         xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
         ylabel(ylabels{8},'FontSize',labelFontSize,'FontWeight','bold');
         title('theta versus time','FontSize',titleFontSize,'FontWeight','bold');
-       xlim([0,4]);
+%        xlim([0,4]);
 
         subplot(2,3,3);grid on;
         plot(time,rad2deg(Y(:,9)),'lineWidth',lineWidth);grid on;box on;
         xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
         ylabel(ylabels{9},'FontSize',labelFontSize,'FontWeight','bold');
         title('psi versus time','FontSize',titleFontSize,'FontWeight','bold');
-      xlim([0,4]);
+%       xlim([0,4]);
 
         subplot(2,3,4);grid on;
         plot(time,rad2deg(Y(:,4)),'lineWidth',lineWidth);grid on;box on;
@@ -212,14 +210,14 @@ end
         ylabel(ylabels{4},'FontSize',labelFontSize,'FontWeight','bold');
     
         title('p versus time','FontSize',titleFontSize,'FontWeight','bold');
-      xlim([0,4]);
+%       xlim([0,4]);
 
         subplot(2,3,5);grid on;
         plot(time,rad2deg(Y(:,5)),'lineWidth',lineWidth);grid on;box on;
         xlabel('time (sec)','FontSize',labelFontSize,'FontWeight','bold');
         ylabel(ylabels{5},'FontSize',labelFontSize,'FontWeight','bold');
         title('q versus time','FontSize',titleFontSize,'FontWeight','bold');
-          xlim([0,4]);
+%           xlim([0,4]);
 
         subplot(2,3,6);
         plot(time,rad2deg(Y(:,6)),'lineWidth',lineWidth);grid on;box on;
@@ -227,7 +225,7 @@ end
         ylabel(ylabels{6},'FontSize',labelFontSize,'FontWeight','bold');
         title('r versus time','FontSize',titleFontSize,'FontWeight','bold');
         saveas(gcf,  fullfile(['Figures\',Vehicle,'\NonLinearResponse\',['PWMs_',num2str(esc1),'_',num2str(esc2),'_',num2str(esc3),'_',num2str(esc4),'\'] , ['14','.emf']]));
-    xlim([0,4]);
+%     xlim([0,4]);
     %========Plot flight path============%
 %     figure
 %             set(gcf,'units','normalized','outerposition',[0 0 1 1]);
@@ -258,19 +256,19 @@ end
 %     legend([h1,h2,h3,h4],'ESC1','ESC2','ESC3','ESC4');
 %          saveas(gcf,  fullfile(['Figures\',Vehicle,'\NonLinearResponse\',['PWMs_',num2str(esc1),'_',num2str(esc2),'_',num2str(esc3),'_',num2str(esc4),'\'] , ['input','.emf']]));
 
-%% Linear Response
-kavg = mean(k);
-bavg = mean(b);
-lavg = mean(l);
-s=tf('s');
-p_deltaLAT = lavg*kavg/Ix/s;
-q_deltaLong = lavg*kavg/Iy/s;
-r_deltaPend = bavg/Iz/s;
-z_deltaCol = kavg/m/s^2;
-PWM1 = -[10   10  0    9 10 10 10];
-PWM2 = -[10    0  10  10 10 9 10];
-PWM3 = -[10   10  0   10 9 10 10];
-PWM4 = -[10    0  10  10 10 10 9];
+% % Linear Response
+% kavg = mean(k);
+% bavg = mean(b);
+% lavg = mean(l);
+% s=tf('s');
+% p_deltaLAT = lavg*kavg/Ix/s;
+% q_deltaLong = lavg*kavg/Iy/s;
+% r_deltaPend = bavg/Iz/s;
+% z_deltaCol = kavg/m/s^2;
+% PWM1 = -[10   10  0    9 10 10 10];
+% PWM2 = -[10    0  10  10 10 9 10];
+% PWM3 = -[10   10  0   10 9 10 10];
+% PWM4 = -[10    0  10  10 10 10 9];
 %% Comparing with the non linear Respose
 % for i =1:length(PWM1)
 %     acuators  = [esc1 esc2 esc3 esc4];%1,2,3,4

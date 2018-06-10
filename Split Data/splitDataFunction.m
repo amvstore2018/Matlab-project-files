@@ -49,7 +49,7 @@ for k = 1 : n/2
     title('\theta versus time','FontSize',20,'FontWeight','bold');
     grid on;box on;
  subplot(2,3,3)
-    plot(time,A(2:end,11),'lineWidth',2);
+    plot(time,unwrap(A(2:end,11)),'lineWidth',2);
     xlabel('time (sec)','FontSize',18,'FontWeight','bold');
     ylabel('\psi (deg)','FontSize',18,'FontWeight','bold');
     title('\psi versus time','FontSize',20,'FontWeight','bold');

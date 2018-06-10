@@ -23,24 +23,24 @@ p=4; q=5; r=6; %angular velocities
 phi=7; theta=8; psi=9; %Euler angles
 x=10; y=11; z=12; %position vector w.r.t inertial frame
 %=========Stability drvatives===========%
-global CR_CG_distance;
+global CR_CG_distance nue;
 
 global Lphi Lp Mphi Mp Nphi Np Ltheta Lq Mtheta Mq Ntheta Nq Lpsi Lr Mpsi Mr Npsi Nr ;
 %===========Calculating vehicle forces============%
-dX = 0;
-dY = 0;
-dZ = acuators*k;
+X0 = m*g*sin(trimAngle);dX = 0;
+Y0 = -m*g*cos(trimAngle)*sin(phi0);dY = 0;
+Z0 = -m*g*cos(trimAngle)*cos(phi0);dZ = acuators*k;
 %=========calculating force and moments from pg 107 Nellson============%
-X=m*g*sin(trimAngle)+dX;
-Y=-m*g*cos(trimAngle)*sin(phi0)+dY; 
-Z=-m*g*cos(trimAngle)*cos(phi0)+dZ; 
+X=X0+dX;
+Y=Y0+dY; 
+Z=Z0+dZ; 
 %=========differintial equations============%
 
 Tdot = zeros(12,1);    
 Tdot(u) = (X-m*g*sin(states(theta)))/m-states(q)*states(w)+states(r)*states(v);
 Tdot(v) = (Y+m*g*cos(states(theta))*sin(states(phi)))/m-states(r)*states(u)+states(p)*states(w);
 Tdot(w) = ((Z+m*g*cos(states(theta))*cos(states(phi)))/m-states(p)*states(v)+states(q)*states(u));
-%==Forces & Moments==%
+%===========Calculating vehicle moments============%
 vec=ones(length(acuators)/2,1);
 vec(2:2:end)=-1;
 dL =    acuators(2:2:end) *    (l(2:2:end).*k(2:2:end).*vec) + Lp*(states(p)-p0) +Lphi*(states(phi)-phi0) + Lq*(states(q)-q0) +Ltheta*(states(theta)-theta0) + Lr*(states(r)-r0) +Lpsi*(states(psi)-psi0);
@@ -51,9 +51,12 @@ vec=ones(1,length(acuators));
 vec(1:2:end)=-1;
 PWM = acuators.*vec;
 dN = PWM*b+ Np*(states(p)-p0) +Nphi*(states(phi)-phi0)+ Nq*(states(q)-q0) +Ntheta*(states(theta)-theta0) + Nr*(states(r)-r0) +Npsi*(states(psi)-psi0);
-L=dL;
-M=dM; 
-N=dN; 
+L0 = -m*g*CR_CG_distance * cos(states(theta))*sin(states(phi)) - nue * (states(p) +states(q) * sin(states(phi)) *tan());
+M0 = -m*g*CR_CG_distance * sin(states(theta))- nue * states(q);
+N0 = 0;
+L=L0+dL;
+M=M0+dM; 
+N=N0+dN; 
 %=========differintial equations============%
 Tdot(p) =1/(Ixz^2-Ix*Iz)*(-Iz*(L+Ixz*states(p)*states(q))-Ixz*(N+states(p)*states(q)*(Ix-Iy))+states(q)*states(r)*(Ixz^2+Iz*(Iz-Iy)));
 Tdot(q) =(M-states(r)*states(p)*(Ix-Iz)-Ixz*(states(p)^2-states(r)^2))/Iy;
