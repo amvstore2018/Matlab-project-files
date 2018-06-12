@@ -23,7 +23,7 @@ p=4; q=5; r=6; %angular velocities
 phi=7; theta=8; psi=9; %Euler angles
 x=10; y=11; z=12; %position vector w.r.t inertial frame
 %=========Stability drvatives===========%
-global CR_CG_distance nue;
+global CR_CG_distance dampingConstant springConstant;
 
 global Lphi Lp Mphi Mp Nphi Np Ltheta Lq Mtheta Mq Ntheta Nq Lpsi Lr Mpsi Mr Npsi Nr ;
 %===========Calculating vehicle forces============%
@@ -51,9 +51,11 @@ vec=ones(1,length(acuators));
 vec(1:2:end)=-1;
 PWM = acuators.*vec;
 dN = PWM*b+ Np*(states(p)-p0) +Nphi*(states(phi)-phi0)+ Nq*(states(q)-q0) +Ntheta*(states(theta)-theta0) + Nr*(states(r)-r0) +Npsi*(states(psi)-psi0);
-L0 = -m*g*CR_CG_distance * cos(states(theta))*sin(states(phi)) - nue * (states(p) +states(q) * sin(states(phi)) *tan(states(theta))+states(r) * cos(states(phi)) *tan(states(theta)));
-M0 = -m*g*CR_CG_distance * sin(states(theta))- nue * (0 +states(q) * cos(states(phi))-states(r) * sin(states(phi)));
-N0 = 0;
+% L0 = -m*g*CR_CG_distance * cos(states(theta))*sin(states(phi)) - dampingConstant * (states(p) +states(q) * sin(states(phi)) *tan(states(theta))+states(r) * cos(states(phi)) *tan(states(theta)))- springConstant *states(phi);
+L0 = -m*g*CR_CG_distance * cos(states(theta))*sin(states(phi)) - dampingConstant * states(p) - springConstant *states(phi);
+ M0 = -m*g*CR_CG_distance * sin(states(theta))- dampingConstant * states(q)- springConstant *states(theta);
+% M0 = -m*g*CR_CG_distance * sin(states(theta))- dampingConstant * (0 +states(q) * cos(states(phi))-states(r) * sin(states(phi)))- springConstant *states(theta);
+N0 = - dampingConstant * states(r);
 L=L0+dL;
 M=M0+dM; 
 N=N0+dN; 
