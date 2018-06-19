@@ -17,7 +17,9 @@ for k = 1 : n/2
         l2 =  endIndx(k+1);
     end
     A=(data(l1:l2,:));
-    A(:,11)=rad2deg(unwrap(deg2rad(A(:,11))));
+
+        A(:,11)=rad2deg(unwrap(deg2rad(A(:,11))));
+
     time =A(2:end,15)-A(1,15);
     xlswrite(fullfile([folder,'\',baseFileName,' ',num2str(A(2,1)),' delta ',num2str(A(2,delta)),' T',num2str(k),'.xlsx']),A);
     %% Transfer function extraction
