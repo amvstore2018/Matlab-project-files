@@ -24,10 +24,10 @@ titles = {'u vs Time' 'v vs Time' 'w vs Time'...
     '\phi vs Time' '\theta vs Time' '\psi vs Time'...
     'x vs Time' 'y vs Time' ' z vs Time'} ;
 %% Run specific sections
-showNonLinear=0;
-showComparionWithNonlinearMode=0;
+showNonLinear=1;
+showComparionWithNonlinearMode=1;
 showControl=1;
-showComparionWithActual=0;
+showComparionWithActual=1;
 %Create folders
 mkdir('Vehicles Figures')
 mkdir ('Vehicles Figures',Vehicle)
@@ -486,10 +486,10 @@ if showControl==1
     xlabel('time','FontSize',labelFontSize,'FontWeight','bold');
     ylabel(ylabels{12},'FontSize',labelFontSize,'FontWeight','bold');
     saveas(gcf,fullfile(['Vehicles Figures\',Vehicle,'\Control PID'], 'z_deltaCol.eps'),'epsc');
-    phi_desired = [30 0 30 0 ];
-    theta_desired =[0 0 30 0 ];
-    psi_desired = [0 30 30 0 ];
-    z_desired = [0 0 0 1];
+    phi_desired = [30 0]
+    theta_desired =[0 0]
+    psi_desired = [0 30]
+    z_desired = [0 0]
 for i = 1:length(phi_desired)
     for index = 1:length(NomThrust)
         disp(['NomThrust',num2str(NomThrust(index)),':'])
@@ -591,10 +591,10 @@ for i = 1:length(phi_desired)
         ylabel(ylabels{9},'FontSize',labelFontSize,'FontWeight','bold');
         saveas(gcf,fullfile(['Vehicles Figures\',Vehicle,'\Control PID'], ['NomThrust',num2str(NomThrust(index)),'psi_r_deltaPend.eps']),'epsc');
         % Nonlinear
-        z_d=(z_desired(i))*ones(1,length(time_array));
-        phi_d=deg2rad(phi_desired(i))*ones(1,length(time_array));
-        theta_d=deg2rad(theta_desired(i))*ones(1,length(time_array));
-        psi_d=deg2rad(psi_desired(i))*ones(1,length(time_array));
+        z_d=(1)*ones(1,length(time_array));
+        phi_d=deg2rad(0)*ones(1,length(time_array));
+        theta_d=deg2rad(0)*ones(1,length(time_array));
+        psi_d=deg2rad(0)*ones(1,length(time_array));
         K0 = k0;
         K1=k1; K2=k2;
         K3=k3; K4=k4;
