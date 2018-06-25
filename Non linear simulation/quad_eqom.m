@@ -2,7 +2,7 @@ function Tdot = quad_eqom(t,states)
 %===========Airplane Basic assumptions============%
 % x direction is in the same direction of motor 1
 % motor 1 rotates CW
-% +ve rotating of A/C is clockwise
+% +ve rotating of A/C is counter-clockwise
 %===========Airplane Parameters============%
 global m g Ix Iy Iz Ixz; 
 global u0 v0 w0 p0 q0 r0 phi0 theta0 psi0 x0 y0 z0 trimAngle;
@@ -43,13 +43,13 @@ Tdot(w) = ((Z+m*g*cos(states(theta))*cos(states(phi)))/m-states(p)*states(v)+sta
 %===========Calculating vehicle moments============%
 vec=ones(length(acuators)/2,1);
 vec(2:2:end)=-1;
-dL =     acuators(2:2:end) *    (l(2:2:end).*k(2:2:end).*vec) + Lp*(states(p)-p0) +Lphi*(states(phi)-phi0) + Lq*(states(q)-q0) +Ltheta*(states(theta)-theta0) + Lr*(states(r)-r0) +Lpsi*(states(psi)-psi0);
+dL =     acuators(2:2:end) *    (-1*l(2:2:end).*k(2:2:end).*vec) + Lp*(states(p)-p0) +Lphi*(states(phi)-phi0) + Lq*(states(q)-q0) +Ltheta*(states(theta)-theta0) + Lr*(states(r)-r0) +Lpsi*(states(psi)-psi0);
 vec=ones(length(acuators)/2,1);
 vec(1:2:end)=-1;
-dM =     acuators(1:2:end) *    (l(1:2:end).*k(1:2:end).*vec)+ Mp*(states(p)-p0) +Mphi*(states(phi)-phi0)+ Mq*(states(q)-q0) +Mtheta*(states(theta)-theta0) + Mr*(states(r)-r0) +Mpsi*(states(psi)-psi0);
+dM =     acuators(1:2:end) *    (-1*l(1:2:end).*k(1:2:end).*vec)+ Mp*(states(p)-p0) +Mphi*(states(phi)-phi0)+ Mq*(states(q)-q0) +Mtheta*(states(theta)-theta0) + Mr*(states(r)-r0) +Mpsi*(states(psi)-psi0);
 vec=ones(1,length(acuators));
 vec(1:2:end)=-1;
-PWM = acuators.*vec;
+PWM = -1*acuators.*vec;
 dN = PWM*b+ Np*(states(p)-p0) +Nphi*(states(phi)-phi0)+ Nq*(states(q)-q0) +Ntheta*(states(theta)-theta0) + Nr*(states(r)-r0) +Npsi*(states(psi)-psi0);
 % L0 = -m*g*CR_CG_distance * cos(states(theta))*sin(states(phi)) - dampingConstant * (states(p) +states(q) * sin(states(phi)) *tan(states(theta))+states(r) * cos(states(phi)) *tan(states(theta)))- springConstant *states(phi);
 L0 = -m*g*CR_CG_distance * cos(states(theta))*sin(states(phi)) - dampingConstant * states(p) - springConstant *states(phi);

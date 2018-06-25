@@ -1,4 +1,4 @@
-function splitDataFunctionv5( filePath ,delta,numCoulmn,state,Ts,Tp,dcgain_angle,dcgain_angleRate)
+function splitDataFunction_kimo( filePath ,delta,numCoulmn,state,Ts,Tp,dcgain_angle,dcgain_angleRate)
 [folder, baseFileName, extension] = fileparts(filePath);
 mkdir (fullfile([folder,'\','Figures']))
 data=importdata(filePath);
@@ -8,6 +8,7 @@ idx=diff(idx);
 n = length(find(idx~=0));
 startIndx=find(idx==1);
 endIndx=find(idx==-1);
+lineWidth=2;
 for k = 1 : n/2
     if(startIndx(k)< endIndx(k))
         l1 =  startIndx(k);
@@ -118,10 +119,10 @@ for k = 1 : n/2
         else
             subplot(3,2,contr1)
         end
-        plot(Time1,roll,t_roll+20,y_roll+roll(1))
+        plot(Time1,roll,t_roll+20,y_roll+roll(1),'lineWidth',lineWidth)
         if state ==1
-            ylabel('roll (deg)','FontSize',18,'FontWeight','bold');
-            title(' roll versus time','FontSize',20,'FontWeight','bold');
+            ylabel('\phi (deg)','FontSize',18,'FontWeight','bold');
+            title(' \phi versus time','FontSize',20,'FontWeight','bold');
             xlabel('time (sec)','FontSize',18,'FontWeight','bold');
             grid on;box on;
             title([' Nom-Thrust = ',num2str(A(2,1)),' delta ',num2str(A(2,delta)),' Test #',num2str(k),'with \zeta = ',num2str(zeta_roll),' &  \omega_{n}',num2str(wn_roll)],'FontSize',14);
@@ -129,11 +130,11 @@ for k = 1 : n/2
             %        legend('Act','Equ','Location','Best','FontSize',6); % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             if k==12
-                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Negative Equivelant_Roll_response.emf']),'emf');
+                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Negative Equivelant_Roll_response.eps']),'epsc');
             end
         elseif state==2
-            ylabel('pitch (deg)','FontSize',18,'FontWeight','bold');
-            title(' pitch versus time','FontSize',20,'FontWeight','bold');
+            ylabel('\theta (deg)','FontSize',18,'FontWeight','bold');
+            title('\theta versus time','FontSize',20,'FontWeight','bold');
             xlabel('time (sec)','FontSize',18,'FontWeight','bold');
             grid on;box on;
             title([' Nom-Thrust = ',num2str(A(2,1)),' delta ',num2str(A(2,delta)),' Test #',num2str(k),'with \zeta = ',num2str(zeta_roll),' &  \omega_{n}',num2str(wn_roll)],'FontSize',14);
@@ -141,12 +142,12 @@ for k = 1 : n/2
             %       legend('Act','Equ','Location','Best','FontSize',6); % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             if k==12
-                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Negative Equivelant_Pitch_response.emf']),'emf');
+                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Negative Equivelant_Pitch_response.eps']),'epsc');
             end
         elseif state==3
             
-            ylabel('psi (deg)','FontSize',18,'FontWeight','bold');
-            title(' psi versus time','FontSize',20,'FontWeight','bold');
+            ylabel('\psi (deg)','FontSize',18,'FontWeight','bold');
+            title('\psi versus time','FontSize',20,'FontWeight','bold');
             xlabel('time (sec)','FontSize',18,'FontWeight','bold');
             grid on;box on;
             title([' Nom-Thrust = ',num2str(A(2,1)),' delta ',num2str(A(2,delta)),' Test #',num2str(k),'with \tau = ',num2str(Tp)],'FontSize',14);
@@ -154,7 +155,7 @@ for k = 1 : n/2
             %        legend('Act','Equ','Location','Best','FontSize',6); % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             if k==13
-                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Negative Equivelant_psi_response.emf']),'emf');
+                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Negative Equivelant_psi_response.eps']),'epsc');
             end
             
         end
@@ -164,7 +165,7 @@ for k = 1 : n/2
         else     subplot(3,2,contr1)
         end
         set(gcf,'units','normalized','outerposition',[0 0 1 1]);
-        plot(Time1,p,t_p+20,y_p+p(1))
+        plot(Time1,p,t_p+20,y_p+p(1),'lineWidth',lineWidth)
         if state==1
             ylabel('p (deg/rate)','FontSize',18,'FontWeight','bold');
             title(' p versus time','FontSize',20,'FontWeight','bold');
@@ -174,7 +175,7 @@ for k = 1 : n/2
             %   suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             %        legend('Act','Equ','Location','Best','FontSize',6); % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             if k==12
-                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Negative Equivelant_P_response.emf']),'emf');
+                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Negative Equivelant_P_response.eps']),'epsc');
             end
         elseif state==2
             ylabel('q (deg/rate)','FontSize',18,'FontWeight','bold');
@@ -185,7 +186,7 @@ for k = 1 : n/2
             %   suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             %       legend('Act','Equ','Location','Best','FontSize',6); % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             if k==12
-                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Negative Equivelant_q_response.emf']),'emf');
+                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Negative Equivelant_q_response.eps']),'epsc');
             end
         elseif state==3
             
@@ -198,7 +199,7 @@ for k = 1 : n/2
             %        legend('Act','Equ','Location','Best','FontSize',6); % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             if k==13
-                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Negative Equivelant_r_response.emf']),'emf');
+                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Negative Equivelant_r_response.eps']),'epsc');
             end
         end
     else sign(B(2,st3))==1
@@ -212,33 +213,33 @@ for k = 1 : n/2
             subplot(3,2,contr2)
         end
         
-        plot(Time1,roll,t_roll+10,y_roll+roll(1))
+        plot(Time1,roll,t_roll+10,y_roll+roll(1),'lineWidth',lineWidth)
         if state==1
-            ylabel('roll (deg)','FontSize',18,'FontWeight','bold');
-            title(' roll versus time','FontSize',20,'FontWeight','bold');
+            ylabel('\phi (deg)','FontSize',18,'FontWeight','bold');
+            title('\phi versus time','FontSize',20,'FontWeight','bold');
             xlabel('time (sec)','FontSize',18,'FontWeight','bold');
             grid on;box on;
             title([' Nom-Thrust = ',num2str(A(2,1)),' delta ',num2str(A(2,delta)),' Test #',num2str(k),'with \zeta = ',num2str(zeta_roll),' &  \omega_{n}',num2str(wn_roll)],'FontSize',14);
             %   suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             %legend('Act','Equ','Location','Best','FontSize',6); % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             if k==11
-                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Positive Equivelant_Roll_response.emf']),'emf');
+                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Positive Equivelant_Roll_response.eps']),'epsc');
             end
         elseif state==2
-            ylabel('pitch (deg)','FontSize',18,'FontWeight','bold');
-            title(' pitch versus time','FontSize',20,'FontWeight','bold');
+            ylabel('\theta (deg)','FontSize',18,'FontWeight','bold');
+            title('\theta versus time','FontSize',20,'FontWeight','bold');
             xlabel('time (sec)','FontSize',18,'FontWeight','bold');
             grid on;box on;
             title([' Nom-Thrust = ',num2str(A(2,1)),' delta ',num2str(A(2,delta)),' Test #',num2str(k),'with \zeta = ',num2str(zeta_roll),' &  \omega_{n}',num2str(wn_roll)],'FontSize',14);
             %   suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             %legend('Act','Equ','Location','Best','FontSize',6); % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             if k==11
-                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Positive Equivelant_Pitch_response.emf']),'emf');
+                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Positive Equivelant_Pitch_response.eps']),'epsc');
             end
         elseif state==3
             
-            ylabel('psi (deg)','FontSize',18,'FontWeight','bold');
-            title(' psi versus time','FontSize',20,'FontWeight','bold');
+            ylabel('\psi (deg)','FontSize',18,'FontWeight','bold');
+            title('\psi versus time','FontSize',20,'FontWeight','bold');
             xlabel('time (sec)','FontSize',18,'FontWeight','bold');
             grid on;box on;
             title([' Nom-Thrust = ',num2str(A(2,1)),' delta ',num2str(A(2,delta)),' Test #',num2str(k),'with \tau = ',num2str(Tp)],'FontSize',14);
@@ -246,13 +247,13 @@ for k = 1 : n/2
             %        legend('Act','Equ','Location','Best','FontSize',6); % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             if k==12
-                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Positive Equivelant_psi_response.emf']),'emf');
+                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Positive Equivelant_psi_response.eps']),'epsc');
             end
         end
         figure (4)
         subplot(3,2,contr2)
         set(gcf,'units','normalized','outerposition',[0 0 1 1]);
-        plot(Time1,p,t_p+10,y_p+p(1))
+        plot(Time1,p,t_p+10,y_p+p(1),'lineWidth',lineWidth)
         if state==1
             ylabel('p (deg/rate)','FontSize',18,'FontWeight','bold');
             title(' p versus time','FontSize',20,'FontWeight','bold');
@@ -262,7 +263,7 @@ for k = 1 : n/2
             %   suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             %legend('Act','Equ','Location','Best','FontSize',6); % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             if k==11
-                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Positive Equivelant_P_response.emf']),'emf');
+                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Positive Equivelant_P_response.eps']),'epsc');
             end
         elseif state==2
             ylabel('q (deg/rate)','FontSize',18,'FontWeight','bold');
@@ -273,7 +274,7 @@ for k = 1 : n/2
             %   suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             %legend('Act','Equ','Location','Best','FontSize',6); % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             if k==11
-                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Positive Equivelant_q_response.emf']),'emf');
+                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Positive Equivelant_q_response.eps']),'epsc');
             end
         elseif state==3
             
@@ -286,7 +287,7 @@ for k = 1 : n/2
             %        legend('Act','Equ','Location','Best','FontSize',6); % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             % suptitle([' T_{s} =',num2str(Ts(1)),'sec , T_{p} =',num2str(Tp(1)),'sec']);
             if k==12
-                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Positive Equivelant_r_response.emf']),'emf');
+                saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' Positive Equivelant_r_response.eps']),'epsc');
             end
         end
     end
@@ -306,7 +307,7 @@ for k = 1 : n/2
     ylabel('ESCs','FontSize',18,'FontWeight','bold');
     title('ESCs versus time','FontSize',20,'FontWeight','bold');
     legend([h1,h2,h3,h4],'ESC1','ESC2','ESC3','ESC4');
-    saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' ',num2str(A(1,1)),'delta',num2str(A(2,delta)),' T',num2str(k),'_inputs.emf']),'emf');
+    saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' ',num2str(A(1,1)),'delta',num2str(A(2,delta)),' T',num2str(k),'_inputs.eps']),'epsc');
     figure(6)
     
     set(gcf,'units','normalized','outerposition',[0 0 1 1]);
@@ -346,8 +347,8 @@ for k = 1 : n/2
     ylabel('r (deg/sec)','FontSize',18,'FontWeight','bold');
     title('r versus time','FontSize',20,'FontWeight','bold');
     grid on;box on;
-    suptitle([baseFileName,' Nom-Thrust = ',num2str(A(2,1)),' delta ',num2str(A(2,delta)),' Test #',num2str(k)])
-    saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' ',num2str(A(1,1)),'delta',num2str(A(2,delta)),' T',num2str(k),'_States.emf']),'emf');
+%     suptitle([baseFileName,' Nom-Thrust = ',num2str(A(2,1)),' delta ',num2str(A(2,delta)),' Test #',num2str(k)])
+    saveas(gcf,fullfile([folder,'\Figures\'], [baseFileName,' ',num2str(A(1,1)),'delta',num2str(A(2,delta)),' T',num2str(k),'_States.eps']),'epsc');
     all_figs = findobj(0, 'type', 'figure');
     delete(setdiff(all_figs, [1 2 3 4]));
 end
